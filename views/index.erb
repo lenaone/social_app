@@ -1,1 +1,17 @@
 <h1>hello world</h1>
+<p>
+  hello, <%= current_user.name %>
+
+  <form action="/users/<%= current_user.id%>/tweets" method="post">
+    <textarea name="content"></textarea>
+    <button>tweet</button>
+  </form>
+</p>
+
+<ul>
+<% current_user.tweets.each do |tweet| %>
+  <li>
+    <%= tweet.created_at.strftime('%F') %><%= tweet.content %>
+  </li>
+<% end %>
+</ul>

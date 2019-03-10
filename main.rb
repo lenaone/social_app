@@ -33,6 +33,40 @@ get '/sign_up' do
   erb :sign_up
 end
 
+post '/sign_up' do
+  user = User.new
+  user.firstname = params[:firstname]
+  user.lastname = params[:lastname]
+  user.email = params[:email]
+  user.password = params[:password]
+  user.save
+  redirect '/'
+end
+
+get '/login' do
+  erb :login
+end
+
+post '/login' do
+# find the user by id
+  # authenticate the user
+  # if both are OK -> put the user in the session
+  user = User.find_by(email: params[:email])
+  if user && user.authenticate(params[:password])
+    session[:user_id] = user.id
+    redirect '/'
+  else
+    erb :login
+  end
+
+end
+
+post '/users/:id/tweets' do
+  user = User.find(params[:id])
+  user.tweets.create!(content: params[:content])
+  redirect '/'
+end
+
 
 
 
